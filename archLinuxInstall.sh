@@ -227,7 +227,7 @@ function installAURPackageManager() {
 	cd .. && rm -rf yay
 	
 	#install alternate aur tool
-	sudo pacman -Sy --needed paru-bin
+	yay -Sy --needed paru-bin
 	
 
     if [ $PROCESSORTYPE == "x86" ]; then
