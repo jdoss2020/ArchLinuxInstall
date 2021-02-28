@@ -331,14 +331,17 @@ function installBudgie() {
 #
 #
 function installi3wm() {
-	yay -Sy --needed xorg xorg-xinit i3-wm i3lock-color i3status i3blocks dmenu terminator firefox chromium picom polybar nitrogen dunst
+	yay -Sy --needed xorg xorg-xinit alacritty i3-gaps i3lock-color i3status i3blocks dmenu terminator firefox chromium picom polybar nitrogen ttf-font-awesome dconf qutebrowser vim vifm flameshot trizen pyradio-git htop alacritty youtube-viewer pcmanfm lxappearance mpv vlc deadbeef jq materia-gtk-theme mint-backgrounds-tricia nerd-fonts-droid-sans-mono nerd-fonts-ubuntu-mono papirus-icon-theme pithos pianobar network-manager-applet trayer volumeicon polykit-gnome htop lightdm-gtk-greeter-settings luit wireless_tools cower flex rofi
 
-	mkdir ~/.config/dunst
-	sudo cp /usr/share/dunst/dunstrc ~/.config/dunst/dunstrc
-	sudo chown $(whoami):$(whoami) ~/.config/dunst/dunstrc
+	git clone https://github.com/jdoss2020/dotfiles.git ~/Downloads/i3_config
+	
+	# configure i3
+	mv ~/Downloads/i3_config/.config/* ~/.config/.
+	#set executable permissions
+	find ~/.config -name "*.sh" -exec chmod +x {} \; 
 
-	# enable slick greeter
-	installSlickGreeter
+	# enable lightdm-gtk-greeter
+	installLightDMGTKGreeter
 	sleep $SLEEPINTERVAL
 }
 #
