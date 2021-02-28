@@ -201,7 +201,7 @@ function installPrinting() {
 #
 function installSystemUtilities()
 {
-	local SYSTEMUTILITIES="vim dkms p7zip haveged pacman-contrib pkgfile git diffutils jfsutils reiserfsprogs btrfs-progs f2fs-tools logrotate man-db man-pages mdadm perl s-nail texinfo which xfsprogs lsscsi sdparm sg3_utils smartmontools fuse2 fuse3 ntfs-3g exfat-utils gvfs gvfs-afc gvfs-goa gvfs-gphoto2 gvfs-mtp gvfs-nfs gvfs-smb unrar unzip unace xz xdg-user-dirs ddrescue dd_rescue testdisk hdparm htop rsync hardinfo bash-completion geany lsb-release polkit gufw ufw bleachbit packagekit gparted qt5ct accountsservice linux-firmware"
+	local SYSTEMUTILITIES="vim dkms p7zip haveged pacman-contrib pkgfile git diffutils jfsutils reiserfsprogs btrfs-progs f2fs-tools logrotate man-db man-pages mdadm perl s-nail texinfo which xfsprogs lsscsi sdparm sg3_utils smartmontools fuse2 fuse3 ntfs-3g exfat-utils gvfs gvfs-afc gvfs-goa gvfs-gphoto2 gvfs-mtp gvfs-nfs gvfs-smb unrar unzip unace xz xdg-user-dirs ddrescue dd_rescue testdisk hdparm htop rsync hardinfo bash-completion geany lsb-release polkit gufw ufw bleachbit packagekit gparted qt5ct accountsservice linux-firmware neofetch htop"
 
 	if [ VIDEOCARD == "NVIDIA" ];then
 		SYSTEMUTILITIES="$SYSTEMUTILITIES nvidia-lts"
