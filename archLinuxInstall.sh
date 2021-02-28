@@ -331,7 +331,7 @@ function installBudgie() {
 #
 #
 function installi3wm() {
-	yay -Sy --needed xorg xorg-xinit alacritty i3-gaps i3lock-color i3status i3blocks dmenu terminator firefox chromium picom polybar nitrogen ttf-font-awesome dconf qutebrowser vim vifm flameshot trizen pyradio-git htop alacritty youtube-viewer pcmanfm lxappearance mpv vlc deadbeef jq materia-gtk-theme mint-backgrounds-tricia nerd-fonts-droid-sans-mono nerd-fonts-ubuntu-mono papirus-icon-theme pithos pianobar network-manager-applet trayer volumeicon polykit-gnome htop lightdm-gtk-greeter-settings luit wireless_tools cower flex rofi
+	yay -Sy --needed siji alacritty i3-gaps i3lock-color i3status i3blocks dmenu terminator firefox chromium picom polybar nitrogen ttf-font-awesome dconf qutebrowser vim vifm flameshot trizen pyradio-git htop alacritty youtube-viewer pcmanfm lxappearance mpv vlc deadbeef jq materia-gtk-theme mint-backgrounds-tricia nerd-fonts-droid-sans-mono nerd-fonts-ubuntu-mono papirus-icon-theme pithos pianobar network-manager-applet trayer volumeicon polkit-gnome htop lightdm-gtk-greeter-settings luit wireless_tools flex rofi
 
 	git clone https://github.com/jdoss2020/dotfiles.git ~/Downloads/i3_config
 	
