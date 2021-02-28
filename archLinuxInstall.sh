@@ -6,6 +6,7 @@ set -e
 PROCESSORTYPE=x86   # x86, armfh or aarch64
 VIDEOCARD=''
 HOMECOUNTRY='United States'
+SECONDARYCOUNTRY='Canada'
 EXECUSER='root'
 SLICKGREETERFILE='/etc/lightdm/slick-greeter.conf'
 LIGHTDMGTKGREETERFILE='/etc/lightdm/lightdm-gtk-greeter.conf'
@@ -157,7 +158,7 @@ function installXorg() {
 #
 #
 function installNetworking() {
-	local NETWORKING="b43-fwcutter ipw2100-fw ipw2200-fw net-tools networkmanager networkmanager-openvpn nm-connection-editor network-manager-applet wget curl firefox chromium thunderbird wireless_tools nfs-utils nilfs-utils dhclient dnsmasq dmraid dnsutils openvpn openssh openssl samba whois iwd filezilla avahi openresolv youtube-dl vsftpd wpa_supplicant"
+	local NETWORKING="b43-fwcutter net-tools networkmanager networkmanager-openvpn nm-connection-editor network-manager-applet wget curl firefox chromium thunderbird wireless_tools nfs-utils nilfs-utils dhclient dnsmasq dmraid dnsutils openvpn openssh openssl samba whois iwd filezilla avahi openresolv youtube-dl vsftpd wpa_supplicant"
 
 	if [ $PROCESSORTYPE == "x86" ]; then
 	    NETWORKING="$NETWORKING expressvpn ipw2200-fw broadcom-wl-dkms ipw2100-fw amd-ucode intel-ucode"
@@ -174,7 +175,7 @@ function installNetworking() {
 #
 #
 function installFontsAndThemes() {
-	yay -Sy --needed ttf-ubuntu-font-family ttf-dejavu ttf-bitstream-vera ttf-liberation noto-fonts ttf-roboto ttf-opensans opendesktop-fonts cantarell-fonts freetype2 ttf-font-awesome nerd-fonts-ubuntu-mono matcha-gtk-theme papirus-icon-theme papirus-maia-icon-theme culmus culmus-fancy-ttf ttf-mononoki nerd-fonts-mononoki
+	yay -Sy --needed ttf-ms-fonts ttf-ubuntu-font-family ttf-dejavu ttf-bitstream-vera ttf-liberation noto-fonts ttf-roboto ttf-opensans opendesktop-fonts cantarell-fonts freetype2 ttf-font-awesome nerd-fonts-ubuntu-mono matcha-gtk-theme papirus-icon-theme papirus-maia-icon-theme culmus culmus-fancy-ttf ttf-mononoki nerd-fonts-mononoki
 
 	sleep $SLEEPINTERVAL
 }
@@ -203,7 +204,7 @@ function installPrinting() {
 #
 function installSystemUtilities()
 {
-	local SYSTEMUTILITIES="dkms p7zip haveged pacman-contrib pkgfile git diffutils jfsutils reiserfsprogs btrfs-progs f2fs-tools logrotate man-db man-pages mdadm perl s-nail texinfo which xfsprogs lsscsi sdparm sg3_utils smartmontools fuse2 fuse3 ntfs-3g exfat-utils gvfs gvfs-afc gvfs-goa gvfs-gphoto2 gvfs-mtp gvfs-nfs gvfs-smb unrar unzip unace xz xdg-user-dirs ddrescue dd_rescue testdisk hdparm htop rsync hardinfo bash-completion geany lsb-release polkit gufw ufw bleachbit packagekit gparted qt5ct accountsservice linux-firmware"
+	local SYSTEMUTILITIES="vim dkms p7zip haveged pacman-contrib pkgfile git diffutils jfsutils reiserfsprogs btrfs-progs f2fs-tools logrotate man-db man-pages mdadm perl s-nail texinfo which xfsprogs lsscsi sdparm sg3_utils smartmontools fuse2 fuse3 ntfs-3g exfat-utils gvfs gvfs-afc gvfs-goa gvfs-gphoto2 gvfs-mtp gvfs-nfs gvfs-smb unrar unzip unace xz xdg-user-dirs ddrescue dd_rescue testdisk hdparm htop rsync hardinfo bash-completion geany lsb-release polkit gufw ufw bleachbit packagekit gparted qt5ct accountsservice linux-firmware"
 
 	if [ VIDEOCARD == "NVIDIA" ];then
 		SYSTEMUTILITIES="$SYSTEMUTILITIES nvidia-lts"
@@ -227,7 +228,7 @@ function installAURPackageManager() {
 	cd .. && rm -rf yay
 	
 	#install alternate aur tool
-	sudo pacman -Sy --needed paru-bin
+	yay -Sy --needed paru-bin
 	
 
     if [ $PROCESSORTYPE == "x86" ]; then
@@ -255,10 +256,10 @@ function installCinnamon() {
 #
 #
 function installGnome() {
-	local GNOME="gnome gdm gnome-control-center gnome-terminal gnome-tweaks matcha-gtk-theme papirus-icon-theme papirus-maia-icon-theme xcursor-dmz noto-fonts ttf-hack chrome-gnome-shell pacman-contrib deluge brasero gufw asunder gnome-disk-utility gufw polkit-gnome gnome-packagekit evince viewnior xcursor-dmz vlc audacious audacity rhythmbox rhythmbox-plugin-alternative-toolbar celluloid clementine gnome-calculator gnome-podcasts handbrake handbrake-cli avidemux-cli avidemux-qt timeshift p7zip gnome-notes gnome-photos dconf-editor ghex gnome-builder gnome-sound-recorder gnome-usage sysprof gnome-nettool gnome-shell-extensions gnome-keyring"
+	local GNOME="gnome gdm gnome-control-center gnome-terminal gnome-tweaks matcha-gtk-theme papirus-icon-theme papirus-maia-icon-theme xcursor-dmz noto-fonts ttf-hack chrome-gnome-shell pacman-contrib deluge brasero gufw asunder gnome-disk-utility gufw polkit-gnome gnome-packagekit evince viewnior xcursor-dmz vlc audacious audacity rhythmbox rhythmbox-plugin-alternative-toolbar celluloid clementine gnome-calculator gnome-podcasts handbrake handbrake-cli avidemux-cli avidemux-qt p7zip gnome-notes gnome-photos dconf-editor ghex gnome-builder gnome-sound-recorder gnome-usage sysprof gnome-nettool gnome-shell-extensions gnome-keyring"
 	
-    if [ $PROCESSORTYPE == "x86" ]; then
-		GNOME="$GNOME tor-browser brave-bin teams"
+        if [ $PROCESSORTYPE == "x86" ]; then
+		GNOME="$GNOME tor-browser brave-bin timeshift gnome-boxes teams"
 	else
 		GNOME="$GNOME chromium-docker"
 	fi
@@ -344,6 +345,7 @@ function installi3wm() {
 #
 function installWallpapers() {
 	git clone https://gitlab.com/dwt1/wallpapers.git ~/Pictures/Wallpaper
+	sleep $SLEEPINTERVAL
 }
 #
 #
@@ -420,14 +422,18 @@ function installCron() {
 #
 #
 function configureRepositories() {
-	sudo pacman -Sy --needed reflector
+    if [ $PROCESSORTYPE == "arm" ]; then
+		echo "Reflector not available for arm processors at this time"
+	else
+		yay -Sy --needed reflector
 
-	# pick fastest and most recently update repositories for home country
-	sudo reflector -c "${HOMECOUNTRY}" -a 15 --sort rate --save /etc/pacman.d/mirrorlist
-	sudo pacman -Syyy
+		# pick fastest and most recently update repositories for home country
+		sudo reflector -c "${HOMECOUNTRY}" -a 15 --sort rate --save /etc/pacman.d/mirrorlist
+		sudo pacman -Syyy
 
-	# show the results of reflector
-	cat /etc/pacman.d/mirrorlist
+		# show the results of reflector
+		cat /etc/pacman.d/mirrorlist
+	fi
 	sleep $SLEEPINTERVAL
 }
 #
@@ -476,17 +482,19 @@ function activateFirewall() {
 
 	sudo systemctl enable ufw.service
 	sudo systemctl start ufw.service
+	sleep $SLEEPINTERVAL
 }
 function activateNetworkManager() {
 	sudo systemctl disable dhcpcd.service
 	sudo systemctl enable NetworkManager.service
+	sleep $SLEEPINTERVAL
 }
 #
 #
 function installLatex() {
 	yay -Sy --needed texmaker texstudio texlive-bibtexextra texlive-bin texlive-core texlive-fontsextra texlive-formatsextra texlive-games texlive-humanities texlive-langchinese texlive-langcyrillic texlive-langextra texlive-langgreek texlive-langjapanese texlive-langkorean texlive-latexextra texlive-music texlive-pictures texlive-pstricks texlive-publishers texlive-science tex-gyre-fonts libreoffice-extension-writer2latex evince
 
-
+	sleep $SLEEPINTERVAL
 }
 #
 #
