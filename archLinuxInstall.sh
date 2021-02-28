@@ -110,9 +110,6 @@ function installLightDMGTKGreeter() {
 	# configure lightdm-gtk greeter file
 	echo -ne "[greeter]\ntheme-name=Matcha-dark-sea\nicon-theme-name=Papirus-Dark-Maia\nbackground=$SLICKGREETERBACKGROUND\nicon-theme-name=Mint-X\nscreensaver-timeout=0\n" | sudo tee $LIGHTDMGTKGREETERFILE
 
-	# update lightdm file
-	#sudo sed -i 's/#greeter-session=example-gtk-gnome/greeter-session=lightdm-gtk-greeter/' $LIGHTDMCONFIGURATIONFILE
-	
 	#enable lightdm service
 	sudo systemctl enable lightdm.service 
 	sleep $SLEEPINTERVAL
@@ -331,8 +328,16 @@ function installBudgie() {
 #
 #
 function installi3wm() {
-	yay -Sy --needed siji alacritty i3-gaps i3lock-color i3status i3blocks dmenu terminator firefox chromium picom polybar nitrogen ttf-font-awesome dconf qutebrowser vim vifm flameshot trizen pyradio-git htop alacritty youtube-viewer pcmanfm lxappearance mpv vlc deadbeef jq materia-gtk-theme mint-backgrounds-tricia nerd-fonts-droid-sans-mono nerd-fonts-ubuntu-mono papirus-icon-theme pithos pianobar network-manager-applet trayer volumeicon polkit-gnome htop lightdm-gtk-greeter-settings luit wireless_tools flex rofi gnome-keyring librewolf-bin gnome-calulator
+	local I3WM="alacritty i3-gaps i3lock-color i3status i3blocks dmenu terminator firefox chromium picom polybar nitrogen ttf-font-awesome dconf qutebrowser vim vifm flameshot trizen pyradio-git htop alacritty youtube-viewer pcmanfm lxappearance mpv vlc deadbeef jq materia-gtk-theme mint-backgrounds-tricia nerd-fonts-droid-sans-mono nerd-fonts-ubuntu-mono papirus-icon-theme pithos pianobar network-manager-applet trayer volumeicon polkit-gnome htop lightdm-gtk-greeter-settings luit wireless_tools flex rofi librewolf-bin gnome-calculator mousepad vscodium-bin remmina scribus avidemux-qt avidemux-cli handbrake handbrake-cli foliate gnome-todo liferea"
 
+	if [ $PROCESSORTYPE == "x86" ]; then
+		I3WM="$I3WM tor-browser brave-bin timeshift teams"
+	else
+		I3WM="$I3WM chromium-docker"
+	fi
+
+	yay -Sy --needed $I3WM
+ 
 	git clone https://github.com/jdoss2020/dotfiles.git ~/Downloads/i3_config
 	
 	# configure i3
@@ -341,8 +346,6 @@ function installi3wm() {
 	find ~/.config -name "*.sh" -exec chmod +x {} \; 
 	find ~/.config -name "*.py" -exec chmod +x {} \;
 	chmod +x ~/.config/scripts/*
-	# cleanup
-	rm -rf ~/Downloads/i3_config
 
 	# enable lightdm-gtk-greeter
 	installLightDMGTKGreeter
