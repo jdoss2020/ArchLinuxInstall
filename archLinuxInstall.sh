@@ -336,9 +336,11 @@ function installi3wm() {
 	git clone https://github.com/jdoss2020/dotfiles.git ~/Downloads/i3_config
 	
 	# configure i3
-	mv ~/Downloads/i3_config/.config/* ~/.config/.
+	mv -i ~/Downloads/i3_config/.config/* ~/.config/.
 	#set executable permissions
 	find ~/.config -name "*.sh" -exec chmod +x {} \; 
+	find ~/.config -name "*.py" -exec chmod +x {} \;
+	chmod +x ~/.config/scripts/*
 
 	# enable lightdm-gtk-greeter
 	installLightDMGTKGreeter
