@@ -263,7 +263,7 @@ function installCinnamon() {
 #
 #
 function installGnome() {
-	local GNOME="gnome gdm gnome-control-center gnome-terminal gnome-tweaks matcha-gtk-theme papirus-icon-theme papirus-maia-icon-theme xcursor-dmz noto-fonts ttf-hack chrome-gnome-shell pacman-contrib deluge brasero gufw asunder gnome-disk-utility gufw polkit-gnome gnome-packagekit evince viewnior xcursor-dmz vlc audacious audacity rhythmbox rhythmbox-plugin-alternative-toolbar celluloid clementine gnome-calculator gnome-podcasts handbrake handbrake-cli avidemux-cli avidemux-qt p7zip gnome-notes gnome-photos dconf-editor ghex gnome-builder gnome-sound-recorder gnome-usage sysprof gnome-nettool gnome-shell-extensions gnome-keyring"
+	local GNOME="gnome gdm gnome-control-center gnome-terminal gnome-tweaks matcha-gtk-theme papirus-icon-theme papirus-maia-icon-theme xcursor-dmz noto-fonts ttf-hack chrome-gnome-shell pacman-contrib deluge brasero gufw asunder gnome-disk-utility gufw polkit-gnome gnome-packagekit evince viewnior xcursor-dmz vlc audacious audacity rhythmbox rhythmbox-plugin-alternative-toolbar celluloid clementine gnome-calculator gnome-podcasts handbrake handbrake-cli avidemux-cli avidemux-qt p7zip gnome-notes gnome-photos dconf-editor ghex gnome-builder gnome-sound-recorder gnome-usage sysprof gnome-nettool gnome-shell-extensions gnome-keyring pianobar pithos"
 	
         if [ $PROCESSORTYPE == "x86" ]; then
 		GNOME="$GNOME tor-browser brave-bin timeshift gnome-boxes teams"
@@ -273,6 +273,8 @@ function installGnome() {
 	
 	yay -Sy --needed $GNOME
 
+	configurePianobar
+	
 	# enable gnome greeter
 	sudo systemctl enable gdm.service
 	sleep $SLEEPINTERVAL
