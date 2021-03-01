@@ -54,6 +54,10 @@ function handleErrors() {
 #
 function determineUserAndHardwareInfo() {
 	PROCESSORTYPE=`uname -m | cut -c1-3`
+	
+	OS_VERSION=$(grep -i "PRETTY_NAME" /etc/os-release  | awk -F'=' '{print $2}' | sed 's/"//g')
+        NO_CPUS=$(lscpu  | grep  '^CPU(s):' | awk -F":" '{print $2}' | sed "s/^[ \t]*//")
+        TOTAL_MEM=$(grep MemTotal /proc/meminfo | awk -F":" '{print $2}' | sed "s/^[ \t]*//")
 
 	if [ $PROCESSORTYPE == "arm" ] || [ $PROCESSORTYPE == "aar" ]; then
 		VIDEOCARD=`lspci | grep -oP '(?<=PCI bridge: )[^ ]*'`
@@ -82,6 +86,9 @@ function determineUserAndHardwareInfo() {
 	echo -e "User is $EXECUSER"
 	echo -e "Processor is $PROCESSORTYPE"
 	echo -e "Video Card is $VIDEOCARD"
+	echo -e "OS Version is $OS_VERSION"
+	echo -e "Number of CPUs is $NO_CPUS"
+	echo -e "Total Memory is $TOTAL_MEM"
 	echo -e "Time zone is $MYTMZ"
 	echo -e "Locale is $LCLST"
 	sleep $SLEEPINTERVAL
@@ -341,6 +348,7 @@ function installi3wm() {
 
 	yay -Sy --needed $I3WM
  
+ 	# clone i3 configuration
 	git clone https://github.com/jdoss2020/dotfiles.git ~/Downloads/i3_config
 	
 	# configure i3
@@ -350,15 +358,20 @@ function installi3wm() {
 	find ~/.config -name "*.py" -exec chmod +x {} \;
 	chmod +x ~/.config/scripts/*
 	
-	# fix sound on pianobar
-	sudo sh -c 'echo "default_driver=pulse" > /etc/libao.conf'
-	mkdir ~/.config/pianobar
-	touch ~/.config/pianobar/config
-	echo -en "audio_quality = high\nautostart_station = $PIANOBARSTART\npassword = $PIANOBARPW\nuser = $PIANOBARUSER"
+	configurePianobar
 
 	# enable lightdm-gtk-greeter
 	installLightDMGTKGreeter
 	sleep $SLEEPINTERVAL
+}
+#
+#
+function configurePianobar() {
+	# fix sound on pianobar
+	sudo sh -c 'echo "default_driver=pulse" > /etc/libao.conf'
+	mkdir ~/.config/pianobar
+	touch ~/.config/pianobar/config
+	echo -en "audio_quality = high\nautostart_station = $PIANOBARSTART\npassword = $PIANOBARPW\nuser = $PIANOBARUSER" > ~/.config/pianobar/config
 }
 #
 #
