@@ -16,6 +16,9 @@ SSHPORT=50683
 SSHCONFIGURATIONFILE='/etc/ssh/sshd_config'
 SLEEPINTERVAL=10
 LOCALNETWORK='192.168.1.0/24'
+PIANOBARUSER='xxxxxxx@gmail.com'
+PIANOBARPWD='xxxxxxxx'
+PIANOBARSTART='58'
 LCLST=''
 MYTMZ=''
 WHITE='\033[1;37m'
@@ -349,6 +352,9 @@ function installi3wm() {
 	
 	# fix sound on pianobar
 	sudo sh -c 'echo "default_driver=pulse" > /etc/libao.conf'
+	mkdir ~/.config/pianobar
+	touch ~/.config/pianobar/config
+	echo -en "audio_quality = high\nautostart_station = $PIANOBARSTART\npassword = $PIANOBARPW\nuser = $PIANOBARUSER
 
 	# enable lightdm-gtk-greeter
 	installLightDMGTKGreeter
