@@ -354,7 +354,7 @@ function installi3wm() {
 	sudo sh -c 'echo "default_driver=pulse" > /etc/libao.conf'
 	mkdir ~/.config/pianobar
 	touch ~/.config/pianobar/config
-	echo -en "audio_quality = high\nautostart_station = $PIANOBARSTART\npassword = $PIANOBARPW\nuser = $PIANOBARUSER
+	echo -en "audio_quality = high\nautostart_station = $PIANOBARSTART\npassword = $PIANOBARPW\nuser = $PIANOBARUSER"
 
 	# enable lightdm-gtk-greeter
 	installLightDMGTKGreeter
