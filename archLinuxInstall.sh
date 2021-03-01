@@ -371,9 +371,11 @@ function installi3wm() {
 function configurePianobar() {
 	# fix sound on pianobar
 	sudo sh -c 'echo "default_driver=pulse" > /etc/libao.conf'
-	mkdir ~/.config/pianobar
+	if [[ ! -d ~/.config/pianobar ]]; then
+		mkdir ~/.config/pianobar
+	fi
 	touch ~/.config/pianobar/config
-	echo -en "audio_quality = high\nautostart_station = $PIANOBARSTART\npassword = $PIANOBARPW\nuser = $PIANOBARUSER" > ~/.config/pianobar/config
+	echo -en "audio_quality = high\nautostart_station = $PIANOBARSTART\npassword = $PIANOBARPWD\nuser = $PIANOBARUSER\n" > ~/.config/pianobar/config
 }
 #
 #
