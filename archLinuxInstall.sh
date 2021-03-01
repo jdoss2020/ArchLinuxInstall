@@ -346,6 +346,9 @@ function installi3wm() {
 	find ~/.config -name "*.sh" -exec chmod +x {} \; 
 	find ~/.config -name "*.py" -exec chmod +x {} \;
 	chmod +x ~/.config/scripts/*
+	
+	# fix sound on pianobar
+	sudo sh -c 'echo "default_driver=pulse" > /etc/libao.conf'
 
 	# enable lightdm-gtk-greeter
 	installLightDMGTKGreeter
