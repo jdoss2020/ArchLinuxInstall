@@ -108,7 +108,7 @@ function installLightDMGTKGreeter() {
 	yay -Sy --needed lightdm lightdm-gtk-greeter lightdm-gtk-greeter-settings lightdm-settings matcha-gtk-theme papirus-maia-icon-theme mint-backgrounds-tricia
 	
 	# configure lightdm-gtk greeter file
-	echo -ne "[greeter]\ntheme-name=Matcha-dark-sea\nicon-theme-name=Papirus-Dark-Maia\nbackground=$SLICKGREETERBACKGROUND\nicon-theme-name=Mint-X\nscreensaver-timeout=0\n" | sudo tee $LIGHTDMGTKGREETERFILE
+	echo -ne "[greeter]\ntheme-name=Matcha-dark-sea\nicon-theme-name=Papirus-Dark-Maia\nbackground=$SLICKGREETERBACKGROUND\nscreensaver-timeout=0\n" | sudo tee $LIGHTDMGTKGREETERFILE
 
 	#enable lightdm service
 	sudo systemctl enable lightdm.service 
