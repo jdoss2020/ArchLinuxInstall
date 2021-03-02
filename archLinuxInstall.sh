@@ -148,7 +148,6 @@ function installSSH {
 	# harden ssh configuration
 	read -p "Harden the SSH configuration? (Y or N)" CHOICE
 	if [ $CHOICE == 'y' ] || [ $CHOICE == 'Y' ]; then
-			echo 'exec sed command'
 	    	sudo sed -i -e  "/^#Port 22/a Protocol 2" -e "s/^#Port 22/Port ${SSHPORT}/" -e "s/^#PermitRootLogin prohibit-password/PermitRootLogin no/" -e "s/^#IgnoreRhosts yes/IgnoreRhosts no/" -e "s/^#X11Forwarding no/X11Forwarding no/" -e "s/#PasswordAuthentication yes/PasswordAuthentication no/" $SSHCONFIGURATIONFILE
     fi
 	ssh-keygen -t ecdsa -b 521
