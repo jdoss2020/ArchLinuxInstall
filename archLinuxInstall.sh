@@ -189,7 +189,7 @@ function installFontsAndThemes() {
 #
 #
 function installOfficeTools() {
-	local OFFICETOOLS="libreoffice-fresh calibre dia scribus" 
+	local OFFICETOOLS="libreoffice-fresh calibre dia scribus hyphen-en hunspell-en_US mythes-en libreoffice-extension-languagetool" 
 	
 	if [ $PROCESSORTYPE == "x86" ]; then
 		OFFICETOOLS="$OFFICETOOLS drawio-desktop bitwarden joplin"
@@ -263,10 +263,10 @@ function installCinnamon() {
 #
 #
 function installGnome() {
-	local GNOME="gnome gdm gnome-control-center gnome-terminal gnome-tweaks matcha-gtk-theme papirus-icon-theme papirus-maia-icon-theme xcursor-dmz noto-fonts ttf-hack chrome-gnome-shell pacman-contrib deluge brasero gufw asunder gnome-disk-utility gufw polkit-gnome gnome-packagekit evince viewnior xcursor-dmz vlc audacious audacity rhythmbox rhythmbox-plugin-alternative-toolbar celluloid clementine gnome-calculator gnome-podcasts handbrake handbrake-cli avidemux-cli avidemux-qt p7zip gnome-notes gnome-photos dconf-editor ghex gnome-builder gnome-sound-recorder gnome-usage sysprof gnome-nettool gnome-shell-extensions gnome-keyring pianobar pithos"
+	local GNOME="gnome gdm gnome-control-center gnome-terminal gnome-tweaks matcha-gtk-theme papirus-icon-theme papirus-maia-icon-theme xcursor-dmz noto-fonts ttf-hack chrome-gnome-shell pacman-contrib deluge gufw gnome-disk-utility gufw polkit-gnome gnome-packagekit evince viewnior xcursor-dmz vlc audacious audacity rhythmbox rhythmbox-plugin-alternative-toolbar celluloid clementine gnome-calculator gnome-podcasts handbrake handbrake-cli avidemux-cli avidemux-qt p7zip gnome-notes gnome-photos dconf-editor ghex gnome-builder gnome-sound-recorder gnome-usage sysprof gnome-nettool gnome-shell-extensions gnome-keyring pianobar pithos"
 	
         if [ $PROCESSORTYPE == "x86" ]; then
-		GNOME="$GNOME tor-browser brave-bin timeshift gnome-boxes teams"
+		GNOME="$GNOME tor-browser brave-bin timeshift gnome-boxes asunder brasero teams"
 	else
 		GNOME="$GNOME chromium-docker"
 	fi
