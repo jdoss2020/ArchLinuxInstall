@@ -16,9 +16,11 @@ SSHPORT=50683
 SSHCONFIGURATIONFILE='/etc/ssh/sshd_config'
 SLEEPINTERVAL=10
 LOCALNETWORK='192.168.1.0/24'
-PIANOBARUSER='xxxxxxx@gmail.com'
-PIANOBARPWD='xxxxxxxx'
+PIANOBARUSER='jdoss2015@gmail.com'
+PIANOBARPWD='LLR140md!'
 PIANOBARSTART='58'
+X86APPS='tor-browser brave-bin timeshift asunder brasero teams'
+ARMAPPS='chromium-docker'
 LCLST=''
 MYTMZ=''
 WHITE='\033[1;37m'
@@ -56,8 +58,8 @@ function determineUserAndHardwareInfo() {
 	PROCESSORTYPE=`uname -m | cut -c1-3`
 	
 	OS_VERSION=$(grep -i "PRETTY_NAME" /etc/os-release  | awk -F'=' '{print $2}' | sed 's/"//g')
-        NO_CPUS=$(lscpu  | grep  '^CPU(s):' | awk -F":" '{print $2}' | sed "s/^[ \t]*//")
-        TOTAL_MEM=$(grep MemTotal /proc/meminfo | awk -F":" '{print $2}' | sed "s/^[ \t]*//")
+    NO_CPUS=$(lscpu  | grep  '^CPU(s):' | awk -F":" '{print $2}' | sed "s/^[ \t]*//")
+    TOTAL_MEM=$(grep MemTotal /proc/meminfo | awk -F":" '{print $2}' | sed "s/^[ \t]*//")
 
 	if [ $PROCESSORTYPE == "arm" ] || [ $PROCESSORTYPE == "aar" ]; then
 		VIDEOCARD=`lspci | grep -oP '(?<=PCI bridge: )[^ ]*'`
@@ -136,6 +138,10 @@ function installMultimedia {
 	fi
 
 	yay -Sy --needed $MULTIMEDIAPACKAGES
+	
+	# configure command line Pandora client
+	configurePianobar
+	
 	sleep $SLEEPINTERVAL
 }
 #
@@ -148,6 +154,7 @@ function installSSH {
 	# harden ssh configuration
 	read -p "Harden the SSH configuration? (Y or N)" CHOICE
 	if [ $CHOICE == 'y' ] || [ $CHOICE == 'Y' ]; then
+			echo 'exec sed command'
 	    	sudo sed -i -e  "/^#Port 22/a Protocol 2" -e "s/^#Port 22/Port ${SSHPORT}/" -e "s/^#PermitRootLogin prohibit-password/PermitRootLogin no/" -e "s/^#IgnoreRhosts yes/IgnoreRhosts no/" -e "s/^#X11Forwarding no/X11Forwarding no/" -e "s/#PasswordAuthentication yes/PasswordAuthentication no/" $SSHCONFIGURATIONFILE
     fi
 	ssh-keygen -t ecdsa -b 521
@@ -202,6 +209,7 @@ function installOfficeTools() {
 function installPrinting() {
 	yay -Sy --needed system-config-printer foomatic-db foomatic-db-engine gutenprint hplip simple-scan cups cups-pdf cups-filters cups-pk-helper ghostscript gsfonts python-pillow python-pyqt5 python-pip python-reportlab
 
+	# enable and start printing service
 	sudo systemctl enable cups.service
 	sudo systemctl start cups.service
 	sleep $SLEEPINTERVAL
@@ -212,13 +220,12 @@ function installSystemUtilities()
 {
 	local SYSTEMUTILITIES="vim dkms p7zip haveged pacman-contrib pkgfile git diffutils jfsutils reiserfsprogs btrfs-progs f2fs-tools logrotate man-db man-pages mdadm perl s-nail texinfo which xfsprogs lsscsi sdparm sg3_utils smartmontools fuse2 fuse3 ntfs-3g exfat-utils gvfs gvfs-afc gvfs-goa gvfs-gphoto2 gvfs-mtp gvfs-nfs gvfs-smb unrar unzip unace xz xdg-user-dirs ddrescue dd_rescue testdisk hdparm htop rsync hardinfo bash-completion geany lsb-release polkit gufw ufw bleachbit packagekit gparted qt5ct accountsservice linux-firmware neofetch htop"
 
-	if [ VIDEOCARD == "NVIDIA" ];then
-		SYSTEMUTILITIES="$SYSTEMUTILITIES nvidia-lts"
-	fi
-	
 	if [ $PROCESSORTYPE == "x86" ]; then
-	    SYSTEMUTILITIES="$SYSTEMUTILITIES linux-lts-headers balena-etcher archiso-git aic94xx-firmware wd719x-firmware"
-    fi
+		SYSTEMUTILITIES="$SYSTEMUTILITIES linux-lts-headers balena-etcher archiso-git aic94xx-firmware wd719x-firmware"
+		if [ VIDEOCARD == "NVIDIA" ]; then
+			SYSTEMUTILITIES="$SYSTEMUTILITIES nvidia-lts"
+		fi
+	fi
 
 	yay -Sy --needed $SYSTEMUTILITIES
 
@@ -247,12 +254,12 @@ function installAURPackageManager() {
 #
 #
 function installCinnamon() {
-	local CINNAMON="cinnamon cinnamon-translations mint-themes mint-x-icons mint-y-icons mint-backgrounds-tara mint-backgrounds-tessa mint-backgrounds-tricia mint-backgrounds-ulyana gnome-terminal adwaita-icon-theme adapta-gtk-theme arc-gtk-theme arc-icon-theme gtk-engine-murrine gnome-keyring nemo nemo-share xed file-roller nemo-fileroller tmux tldr deluge brasero gnome-disk-utility gufw polkit-gnome gnome-packagekit xcursor-dmz vlc audacious audacity rhythmbox rhythmbox-plugin-alternative-toolbar celluloid clementine gnome-calculator gnome-podcasts handbrake handbrake-cli avidemux-cli avidemux-qt timeshift p7zip gnome-todo gnome-notes gnome-photos gucharmap gnome-calendar firefox drawing pix hexchat xreader gnote xviewer seahorse redshift gnome-screenshot xed mintstick system-config-printer timeshift baobab gnome-font-viewer deluge gnome-logs gufw pamac-aur foliate" 
+	local CINNAMON="cinnamon cinnamon-translations mint-themes mint-x-icons mint-y-icons mint-backgrounds-tara mint-backgrounds-tessa mint-backgrounds-tricia mint-backgrounds-ulyana gnome-terminal adwaita-icon-theme adapta-gtk-theme arc-gtk-theme arc-icon-theme gtk-engine-murrine gnome-keyring nemo nemo-share xed file-roller nemo-fileroller tmux tldr deluge gnome-disk-utility gufw polkit-gnome gnome-packagekit xcursor-dmz vlc audacious audacity rhythmbox rhythmbox-plugin-alternative-toolbar celluloid clementine gnome-calculator gnome-podcasts handbrake handbrake-cli avidemux-cli avidemux-qt p7zip gnome-todo gnome-notes gnome-photos gucharmap gnome-calendar firefox drawing pix hexchat xreader gnote xviewer seahorse redshift gnome-screenshot xed system-config-printer timeshift baobab gnome-font-viewer deluge gnome-logs gufw pamac-aur foliate" 
 
 	if [ $PROCESSORTYPE == "x86" ]; then
-		CINNAMON="$CINNAMON tor-browser brave-bin teams"
+		CINNAMON="$CINNAMON $X86APPS"
 	else
-		CINNAMON="$CINNAMON chromium-docker"
+		CINNAMON="$CINNAMON $ARMAPPS"
 	fi
 
 	yay -S --needed $CINNAMON
@@ -262,17 +269,20 @@ function installCinnamon() {
 #
 #
 function installGnome() {
-	local GNOME="gnome gdm gnome-control-center gnome-terminal gnome-tweaks matcha-gtk-theme papirus-icon-theme papirus-maia-icon-theme xcursor-dmz noto-fonts ttf-hack chrome-gnome-shell pacman-contrib deluge gufw gnome-disk-utility gufw polkit-gnome gnome-packagekit evince viewnior xcursor-dmz vlc audacious audacity rhythmbox rhythmbox-plugin-alternative-toolbar celluloid clementine gnome-calculator gnome-podcasts handbrake handbrake-cli avidemux-cli avidemux-qt p7zip gnome-notes gnome-photos dconf-editor ghex gnome-builder gnome-sound-recorder gnome-usage sysprof gnome-nettool gnome-shell-extensions gnome-keyring pianobar pithos"
+	local GNOME="gnome gdm gnome-control-center gnome-terminal gnome-tweaks matcha-gtk-theme papirus-icon-theme papirus-maia-icon-theme xcursor-dmz noto-fonts ttf-hack chrome-gnome-shell pacman-contrib deluge gufw gnome-disk-utility gufw polkit-gnome gnome-packagekit evince viewnior xcursor-dmz vlc audacious audacity rhythmbox rhythmbox-plugin-alternative-toolbar celluloid clementine gnome-calculator gnome-podcasts handbrake handbrake-cli avidemux-cli avidemux-qt p7zip gnome-notes gnome-photos dconf-editor ghex gnome-builder gnome-todo gnome-sound-recorder gnome-usage sysprof gnome-nettool gnome-shell-extensions gnome-keyring"
 	
-        if [ $PROCESSORTYPE == "x86" ]; then
-		GNOME="$GNOME tor-browser brave-bin timeshift gnome-boxes asunder brasero teams"
+	if [ $PROCESSORTYPE == "x86" ]; then
+		GNOME="$GNOME $X86APPS"
 	else
-		GNOME="$GNOME chromium-docker"
+		GNOME="$GNOME $ARMAPPS"
 	fi
 	
 	yay -Sy --needed $GNOME
-
-	configurePianobar
+	
+	# remove virtualization from arm implementations
+	if [ $PROCESSORTYPE == "arm" ]; then
+		yay -Rns gnome-boxes
+	fi
 	
 	# enable gnome greeter
 	sudo systemctl enable gdm.service
@@ -281,7 +291,15 @@ function installGnome() {
 #
 #
 function installXFCE() {
-	yay -Sy --needed xfce4 xfce4-goodies galculator deluge pavucontrol xfburn asunder libburn libisofs libisoburn xarchiver arc-gtk-theme arc-icon-theme gtk-engine-murrine adapta-gtk-theme polkit-gnome gnome-disk-utility gufw gnome-packagekit catfish
+	local XFCE="xfce4 xfce4-goodies galculator deluge pavucontrol xfburn libburn libisofs libisoburn xarchiver arc-gtk-theme arc-icon-theme gtk-engine-murrine adapta-gtk-theme polkit-gnome gnome-disk-utility gufw gnome-packagekit catfish"
+	
+	if [ $PROCESSORTYPE == "x86" ]; then
+		XCFE="$XFCE $X86APPS"
+	else
+		XFCE="$XFCE $ARMAPPS"
+	fi
+	
+	yay -Sy --needed $XFCE
 	
 	# enable slick greeter
 	installSlickGreeter
@@ -290,7 +308,15 @@ function installXFCE() {
 #
 #
 function installKDE() {
-	yay -Sy --needed plasma breeze-icons kwrite qbittorrent pavucontrol-qt print-manager sweeper dolphin kdenlive k3b ark konsole gwenview okular kcalc packagekit-qt5 gufw deluge timeshift sddm sddm-kcm kde-applications
+	local KDE="plasma breeze-icons kwrite qbittorrent pavucontrol-qt print-manager sweeper dolphin kdenlive k3b ark konsole gwenview okular kcalc packagekit-qt5 gufw deluge timeshift sddm sddm-kcm kde-applications"
+	
+	if [ $PROCESSORTYPE == "x86" ]; then
+		KDE="$KDE $X86APPS"
+	else
+		KDE="$KDE $ARMAPPS"
+	fi
+	
+	yay -Sy --needed $KDE
 
 	# enable kde greeter
 	sudo systemctl enable sddm.service
@@ -299,15 +325,16 @@ function installKDE() {
 #
 #
 function installMate() {
-	local MATE="mate mate-extra mate-utils mate-applet-dock adapta-gtk-theme arc-gtk-theme arc-icon-theme gtk-engine-murrine deluge brasero asunder gnome-disk-utility gufw mate-polkit gnome-packagekit mate-media mate-tweak network-manager-applet mate-power-manager system-config-printer mate-screensaver mate-screensaver-hacks mate-applet-dock mate-applet-streamer engrampa kvantum-qt5 mate-calc mate-utils materia-gtk-theme pluma"
+	local MATE="mate mate-extra mate-utils mate-applet-dock adapta-gtk-theme arc-gtk-theme arc-icon-theme gtk-engine-murrine deluge gnome-disk-utility gufw mate-polkit gnome-packagekit mate-media mate-tweak network-manager-applet mate-power-manager system-config-printer mate-screensaver mate-screensaver-hacks mate-applet-dock mate-applet-streamer engrampa kvantum-qt5 mate-calc mate-utils materia-gtk-theme pluma"
 
 	if [ $PROCESSORTYPE == "x86" ]; then
-		MATE="$MATE tor-browser brave-bin timeshift teams"
+		MATE="$MATE $X86APPS"
 	else
-		MATE="$MATE chromium-docker"
+		MATE="$MATE $ARMAPPS"
 	fi
 	
 	yay -Sy --needed $MATE
+	
 	# enable slick greeter
 	installSlickGreeter
 	sleep $SLEEPINTERVAL
@@ -315,20 +342,29 @@ function installMate() {
 #
 #
 function installLXQT() {
-	yay -Sy --needed lxqt openbox obconf-qt pcmanfm-qt lxqt-sudo breeze-icons qterminal kwrite networkmanager-qt qbittorrent pavucontrol-qt kdenlive k3b xarchiver galculator polkit-qt5 packagekit-qt5 xscreensaver 
+	local LXQT="lxqt openbox obconf-qt pcmanfm-qt lxqt-sudo breeze-icons qterminal kwrite networkmanager-qt qbittorrent pavucontrol-qt kdenlive k3b xarchiver galculator polkit-qt5 packagekit-qt5 xscreensaver"
 	
+	if [ $PROCESSORTYPE == "x86" ]; then
+		LXQT="$LXQT $X86APPS"
+	else
+		LXQT="$LXQT $ARMAPPS"
+	fi
+	
+	yay -Sy --needed $LXQT
+	
+	# enable lightdm greeter
 	installLightDMGTKGreeter
 	sleep $SLEEPINTERVAL
 }
 #
 #
 function installBudgie() {
-	local BUDGIE="budgie-desktop gnome-control-center nautilus plata-theme vlc audacious audacity rhythmbox rhythmbox-plugin-alternative-toolbar celluloid clementine gnome-terminal gnome-calculator gnome-podcasts handbrake handbrake-cli avidemux-cli avidemux-qt timeshift p7zip gnome-todo gnome-notes gnome-photos deluge brasero gufw asunder gnome-disk-utility gufw polkit-gnome gnome-packagekit evince viewnior timeshift"
+	local BUDGIE="budgie-desktop gnome-control-center nautilus plata-theme vlc audacious audacity rhythmbox rhythmbox-plugin-alternative-toolbar celluloid clementine gnome-terminal gnome-calculator gnome-podcasts handbrake handbrake-cli avidemux-cli avidemux-qt p7zip gnome-todo gnome-notes gnome-photos deluge gufw gnome-disk-utility gufw polkit-gnome gnome-packagekit evince viewnior"
 	
 	if [ $PROCESSORTYPE == "x86" ]; then
-		BUDGIE="$BUDGIE tor-browser brave-bin timeshift teams"
+		BUDGIE="$BUDGIE $X86APPS"
 	else
-		BUDGIE="$BUDGIE chromium-docker"
+		BUDGIE="$BUDGIE $ARMAPPS"
 	fi
 	
 	yay -S --needed $BUDGIE
@@ -339,12 +375,12 @@ function installBudgie() {
 #
 #
 function installi3wm() {
-	local I3WM="alacritty i3-gaps i3lock-color i3status i3blocks dmenu terminator firefox chromium picom polybar nitrogen ttf-font-awesome dconf qutebrowser vim vifm flameshot trizen pyradio-git htop alacritty youtube-viewer pcmanfm lxappearance mpv vlc deadbeef jq materia-gtk-theme mint-backgrounds-tricia nerd-fonts-droid-sans-mono nerd-fonts-ubuntu-mono papirus-icon-theme pithos pianobar network-manager-applet trayer volumeicon polkit-gnome htop lightdm-gtk-greeter-settings luit wireless_tools flex rofi librewolf-bin gnome-calculator mousepad vscodium-bin remmina scribus avidemux-qt avidemux-cli handbrake handbrake-cli foliate gnome-todo liferea"
+	local I3WM="hunspell-en_US alacritty i3-gaps i3lock-color i3status i3blocks dmenu terminator firefox chromium picom polybar nitrogen ttf-font-awesome dconf qutebrowser vim vifm flameshot trizen pyradio-git htop alacritty youtube-viewer pcmanfm lxappearance mpv vlc deadbeef jq materia-gtk-theme mint-backgrounds-tricia nerd-fonts-droid-sans-mono nerd-fonts-ubuntu-mono papirus-icon-theme network-manager-applet trayer volumeicon polkit-gnome htop lightdm-gtk-greeter-settings luit wireless_tools flex rofi librewolf-bin gnome-calculator mousepad vscodium-bin remmina scribus avidemux-qt avidemux-cli handbrake handbrake-cli foliate gnome-todo liferea"
 
 	if [ $PROCESSORTYPE == "x86" ]; then
-		I3WM="$I3WM tor-browser brave-bin timeshift teams"
+		I3WM="$I3WM $X86APPS"
 	else
-		I3WM="$I3WM chromium-docker"
+		I3WM="$I3WM $ARMAPPS"
 	fi
 
 	yay -Sy --needed $I3WM
@@ -358,8 +394,6 @@ function installi3wm() {
 	find ~/.config -name "*.sh" -exec chmod +x {} \; 
 	find ~/.config -name "*.py" -exec chmod +x {} \;
 	chmod +x ~/.config/scripts/*
-	
-	configurePianobar
 
 	# enable lightdm-gtk-greeter
 	installLightDMGTKGreeter
