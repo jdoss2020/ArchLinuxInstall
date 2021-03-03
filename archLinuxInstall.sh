@@ -129,7 +129,7 @@ function installLightDMGTKGreeter() {
 #
 #
 function installMultimedia {
-	local MULTIMEDIAPACKAGES="pulseaudio vlc simplescreenrecorder cdrtools gstreamer gst-libav gst-plugins-base gst-plugins-base-libs gst-plugins-good gst-plugins-bad gst-plugins-ugly gstreamer-vaapi xvidcore frei0r-plugins cdrdao dvdauthor transcode alsa-utils alsa-plugins alsa-firmware pulseaudio-alsa pulseaudio-equalizer pulseaudio-jack ffmpeg ffmpegthumbnailer libdvdcss gimp gimp-extras imagemagick inkscape flac faad2 faac mjpegtools x265 x264 lame sox mencoder scribus blender pianobar pithos dcraw"
+	local MULTIMEDIAPACKAGES="pulseaudio vlc simplescreenrecorder cdrtools gstreamer gst-libav gst-plugins-base gst-plugins-base-libs gst-plugins-good gst-plugins-bad gst-plugins-ugly gstreamer-vaapi xvidcore frei0r-plugins cdrdao dvdauthor transcode alsa-utils alsa-plugins alsa-firmware pulseaudio-alsa pulseaudio-equalizer pulseaudio-jack ffmpeg ffmpegthumbnailer libdvdcss gimp gimp-extras imagemagick inkscape flac faad2 faac mjpegtools x265 x264 lame sox mencoder scribus blender pianobar pithos dcraw kodi kodi-addon-pvr-hts"
 
 	if [ $PROCESSORTYPE == "x86" ]; then
 	    touch ~/.gnupg/gpg.conf
