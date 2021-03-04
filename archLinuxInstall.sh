@@ -300,6 +300,7 @@ function installGnome() {
 	gnome-extensions enable openweather-extension@jenslody.de
 	gnome-extensions enable gnome-shell-screenshot@ttll.de
 	gnome-extensions enable auto-move-windows@gnome-shell-extensions.gcampax.github.com
+	gnome-extensions enable radio@hslbck.gmail.com
 	
 	# configure gnome desktop settings (gsettings list-recursively)
 	gsettings set org.gnome.desktop.interface gtk-theme 'Matcha-dark-sea'
