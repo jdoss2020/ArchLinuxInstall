@@ -195,7 +195,7 @@ function installFontsAndThemes() {
 #
 #
 function installOfficeTools() {
-	local OFFICETOOLS="libreoffice-fresh calibre dia scribus hyphen-en hunspell-en_US mythes-en libreoffice-extension-languagetool" 
+	local OFFICETOOLS="libreoffice-fresh calibre dia scribus hyphen-en hunspell-en_US mythes-en libmythes libreoffice-extension-languagetool" 
 	
 	if [ $PROCESSORTYPE == "x86" ]; then
 		OFFICETOOLS="$OFFICETOOLS drawio-desktop bitwarden joplin"
@@ -285,8 +285,13 @@ function installGnome() {
 	
 	# remove virtualization from arm implementations
 	if [ $PROCESSORTYPE == "arm" ]; then
-		yay -Rns gnome-boxes
+		if yay -Qi $package >/dev/null 2>/dev/null; then
+			yay -Rns gnome-boxes
+		fi
 	fi
+	
+	# replace gnome-terminal with gnome-terminal-transparancy
+	yay -Sy --needed gnome-terminal-transparency
 	
 	# install radio extension
 	gnome-shell-extension-installer 836
@@ -319,10 +324,13 @@ function installGnome() {
 	gsettings set org.gnome.desktop.screensaver picture-uri 'file:///home/jdoss/.local/share/backgrounds/0021.jpg'
 	gsettings set org.gnome.desktop.background picture-options 'zoom'
 	gsettings set org.gnome.desktop.screensaver picture-options 'zoom'
+	gsettings set org.gnome.shell.extensions.openweather city '39.365992,-76.9688737>Sykesville, Carroll County, Maryland, United States >-1'
 	
-	# dash to dock config
+	# dash-to-dock config
 	gsettings set org.gnome.shell.extensions.dash-to-dock extend-height true
 	gsettings set org.gnome.shell.extensions.dash-to-dock custom-theme-shrink true
+	# set favorite apps for dash-to-dock (desktop configurations in /usr/share/applications)
+	gsettings set org-gnome.shell favorite.apps "['chromium.desktop', 'org.gnome.Terminal.desktop', 'org.gnome.Nautilus.desktop', 'libreoffice-writer.desktop', 'libreoffice-calc.desktop', 'gimp.desktop', 'mpv.desktop', 'org.gnome.gedit.desktop']"
 	
 	# enable gnome greeter
 	sudo systemctl enable gdm.service
