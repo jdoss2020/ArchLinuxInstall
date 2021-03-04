@@ -285,7 +285,7 @@ function installGnome() {
 	
 	# remove virtualization from arm implementations
 	if [ $PROCESSORTYPE == "arm" ]; then
-		if yay -Qi $package >/dev/null 2>/dev/null; then
+		if yay -Qi gnome-boxes >/dev/null 2>/dev/null; then
 			yay -Rns gnome-boxes
 		fi
 	fi
