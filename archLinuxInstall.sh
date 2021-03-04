@@ -330,7 +330,7 @@ function installGnome() {
 	gsettings set org.gnome.shell.extensions.dash-to-dock extend-height true
 	gsettings set org.gnome.shell.extensions.dash-to-dock custom-theme-shrink true
 	# set favorite apps for dash-to-dock (desktop configurations in /usr/share/applications)
-	gsettings set org.gnome.shell favorite.apps "['chromium.desktop', 'org.gnome.Terminal.desktop', 'org.gnome.Nautilus.desktop', 'libreoffice-writer.desktop', 'libreoffice-calc.desktop', 'gimp.desktop', 'mpv.desktop', 'org.gnome.gedit.desktop']"
+	gsettings set org.gnome.shell favorite-apps "['chromium.desktop', 'org.gnome.Terminal.desktop', 'org.gnome.Nautilus.desktop', 'libreoffice-writer.desktop', 'libreoffice-calc.desktop', 'gimp.desktop', 'mpv.desktop', 'org.gnome.gedit.desktop']"
 	
 	# enable gnome greeter
 	sudo systemctl enable gdm.service
