@@ -269,7 +269,7 @@ function installCinnamon() {
 #
 #
 function installGnome() {
-	local GNOME="gnome gdm gnome-control-center gnome-terminal gnome-tweaks matcha-gtk-theme papirus-icon-theme papirus-maia-icon-theme xcursor-dmz noto-fonts ttf-hack chrome-gnome-shell pacman-contrib deluge gufw gnome-disk-utility gufw polkit-gnome gnome-packagekit evince viewnior xcursor-dmz vlc audacious audacity rhythmbox rhythmbox-plugin-alternative-toolbar celluloid clementine gnome-calculator gnome-podcasts handbrake handbrake-cli avidemux-cli avidemux-qt p7zip gnome-notes gnome-photos dconf-editor ghex gnome-builder gnome-todo gnome-sound-recorder gnome-usage sysprof gnome-nettool gnome-shell-extensions gnome-keyring"
+	local GNOME="gnome gdm gnome-control-center gnome-terminal gnome-tweaks matcha-gtk-theme papirus-icon-theme papirus-maia-icon-theme xcursor-dmz noto-fonts ttf-hack chrome-gnome-shell pacman-contrib deluge gufw gnome-disk-utility polkit-gnome gnome-packagekit evince viewnior xcursor-dmz vlc audacious audacity rhythmbox rhythmbox-plugin-alternative-toolbar celluloid clementine gnome-calculator gnome-podcasts handbrake handbrake-cli avidemux-cli avidemux-qt p7zip gnome-notes gnome-photos dconf-editor ghex gnome-builder gnome-todo gnome-sound-recorder gnome-usage sysprof gnome-nettool gnome-shell-extensions gnome-keyring"
 	local GNOMEEXTENSIONS="gnome-shell-extension-arch-update gnome-shell-extension-dash-to-dock gnome-shell-extension-clipboard-indicator gnome-shell-extension-openweather-git gnome-shell-extension-screenshot-git"
 	
 	if [ $PROCESSORTYPE == "x86" ]; then
@@ -296,6 +296,10 @@ function installGnome() {
 	gsettings set org.gnome.desktop.wm.preferences button-layout 'close,minimize,maximize:appmenu'
 	gsettings set org.gnome.shell.overrides dynamic-workspaces true
 	gsettings set org.gnome.mutter dynamic-workspaces true
+	cp ~/Pictures/Wallpaper/--21.jpg ~/.local/share/backgrounds/.
+	gsettings set org.gnome.desktop.background picture-uri 'file:///home/jdoss/.local/share/backgrounds/0021.jpg'
+	gsettings set org.gnome.desktop.screensaver picture-uri 'file:///home/jdoss/.local/share/backgrounds/0021.jpg'
+	
 	
 	# enable gnome greeter
 	sudo systemctl enable gdm.service
@@ -649,16 +653,16 @@ function show_menus() {
 	echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 	echo -e "                           ${TEST}Installation Selections ${RESET} "
 	echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
-	echo -e " ${TEST1} 1. AUR Package Manager (required)		11. Desktop or Window Manager"
-	echo "  2. Optimize Package Repositories		12. Virtual Machines"
-	echo "  3. Xorg					13. Cron"
-	echo "  4. System Utilities				14. Create User Directories"
-	echo "  5. Networking					15. Network Time Protocol"
-	echo "  6. Multimedia					16. Over the Air TV"
-	echo "  7. Fonts & Themes				17. Activate Firewall"
-	echo "  8. Office Tools				18. Latex"
-	echo "  9. Printing					19. Activate Network Manager"
-	echo " 10. SSH					20. Install Wallpapers"
+	echo -e " ${TEST1} 1. AUR Package Manager (required)		11. Install Wallpapers"
+	echo "  2. Optimize Package Repositories		12. Desktop or Window Manager
+	echo "  3. Xorg					13. Virtual Machines"
+	echo "  4. System Utilities				14. Cron"
+	echo "  5. Networking					15. Create User Directories"
+	echo "  6. Multimedia					16. Network Time Protocol"
+	echo "  7. Fonts & Themes				17. Over the Air TV"
+	echo "  8. Office Tools				18. Activate Firewall"
+	echo "  9. Printing					19. Latex"
+	echo " 10. SSH					20. Activate Network Manager"
 	echo " "
 	echo -e " 21. Exit ${RESET}"
 }
@@ -678,16 +682,16 @@ read_options() {
 		8) installOfficeTools ;;
 		9) installPrinting ;;
 		10) installSSH ;;
-		11) installDesktops ;;
-		12) installVirtualMachines ;;
-		13) installCron ;;
-		14) createUserDirs ;;
-		15) installNTP ;;
-		16) installTVHeadend ;;
-		17) activateFirewall ;;
-		18) installLatex ;;
-		19) activateNetworkManager ;;
-		20) installWallpapers ;;
+		11) installWallpapers ;;
+		12) installDesktops ;;
+		13) installVirtualMachines ;;
+		14) installCron ;;
+		15) createUserDirs ;;
+		16) installNTP ;;
+		17) installTVHeadend ;;
+		18) activateFirewall ;;
+		19) installLatex ;;
+		20) activateNetworkManager ;;
 		21) exit 0;;
 		*) echo -e "${RED}Error...${choice} is an invalid selection. ${RESET}" && sleep 2
 	esac
