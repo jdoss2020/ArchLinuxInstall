@@ -289,13 +289,16 @@ function installGnome() {
 	fi
 	
 	# configure gnome desktop settings (gsettings list-recursively)
-	gsettings set org.gnome.shell enabled-extensions ['user-theme@gnome-shell-extensions.gcampax.github.com', 'workspace-indicator@gnome-shell-extensions.gcampax.github.com', 'dash-to-dock@micxgx.gmail.com', 'unlockDialogBackground@sun.wxg@gmail.com', 'arch-update@RaphaelRochet', 'gnome-shell-screenshot@ttll.de', 'radio@hslbck.gmail.com', 'openweather-extension@jenslody.de']
+	#gsettings set org.gnome.shell enabled-extensions ['user-theme@gnome-shell-extensions.gcampax.github.com', 'workspace-indicator@gnome-shell-extensions.gcampax.github.com', 'dash-to-dock@micxgx.gmail.com', 'unlockDialogBackground@sun.wxg@gmail.com', 'arch-update@RaphaelRochet', 'gnome-shell-screenshot@ttll.de', 'radio@hslbck.gmail.com', 'openweather-extension@jenslody.de']
 	gsettings set org.gnome.desktop.interface gtk-theme 'Matcha-dark-sea'
 	gsettings set org.gnome.shell.extensions.user-theme name 'Matcha-dark-sea'
 	gsettings set org.gnome.desktop.interface icon-theme 'Papirus-Adapta-Nokto-Maia'
 	gsettings set org.gnome.desktop.wm.preferences button-layout 'close,minimize,maximize:appmenu'
 	gsettings set org.gnome.shell.overrides dynamic-workspaces true
 	gsettings set org.gnome.mutter dynamic-workspaces true
+	if [[ ! -d ~/.local/share/backgrounds ]]; then
+		mkdir ~/.local/share/backgrounds
+	fi
 	cp ~/Pictures/Wallpaper/0021.jpg ~/.local/share/backgrounds/.
 	gsettings set org.gnome.desktop.background picture-uri 'file:///home/jdoss/.local/share/backgrounds/0021.jpg'
 	gsettings set org.gnome.desktop.screensaver picture-uri 'file:///home/jdoss/.local/share/backgrounds/0021.jpg'
