@@ -270,6 +270,7 @@ function installCinnamon() {
 #
 function installGnome() {
 	local GNOME="gnome gdm gnome-control-center gnome-terminal gnome-tweaks matcha-gtk-theme papirus-icon-theme papirus-maia-icon-theme xcursor-dmz noto-fonts ttf-hack chrome-gnome-shell pacman-contrib deluge gufw gnome-disk-utility gufw polkit-gnome gnome-packagekit evince viewnior xcursor-dmz vlc audacious audacity rhythmbox rhythmbox-plugin-alternative-toolbar celluloid clementine gnome-calculator gnome-podcasts handbrake handbrake-cli avidemux-cli avidemux-qt p7zip gnome-notes gnome-photos dconf-editor ghex gnome-builder gnome-todo gnome-sound-recorder gnome-usage sysprof gnome-nettool gnome-shell-extensions gnome-keyring"
+	local GNOMEEXTENSIONS="gnome-shell-extension-arch-update gnome-shell-extension-dash-to-dock gnome-shell-extension-clipboard-indicator gnome-shell-extension-openweather-git gnome-shell-extension-screenshot-git"
 	
 	if [ $PROCESSORTYPE == "x86" ]; then
 		GNOME="$GNOME $X86APPS"
@@ -279,10 +280,22 @@ function installGnome() {
 	
 	yay -Sy --needed $GNOME
 	
+	# still need to install radio by hand
+	yay -Sy --needed $GNOMEEXTENSIONS
+	
 	# remove virtualization from arm implementations
 	if [ $PROCESSORTYPE == "arm" ]; then
 		yay -Rns gnome-boxes
 	fi
+	
+	# configure gnome desktop settings (gsettings list-recursively)
+	gsettings set org.gnome.shell enabled-extensions ['user-theme@gnome-shell-extensions.gcampax.github.com', 'workspace-indicator@gnome-shell-extensions.gcampax.github.com', 'dash-to-dock@micxgx.gmail.com', 'unlockDialogBackground@sun.wxg@gmail.com', 'arch-update@RaphaelRochet', 'gnome-shell-screenshot@ttll.de', 'radio@hslbck.gmail.com', 'openweather-extension@jenslody.de', 'gradio@ivoavnunes.gmail.com']
+	gsettings set org.gnome.desktop.interface gtk-theme 'Matcha-dark-sea'
+	gsettings set org.gnome.shell.extensions.user-theme name 'Matcha-dark-sea'
+	gsettings set org.gnome.desktop.interface icon-theme 'Papirus-Adapta-Nokto-Maia'
+	gsettings set org.gnome.desktop.wm.preferences button-layout 'close,minimize,maximize:appmenu'
+	gsettings set org.gnome.shell.overrides dynamic-workspaces true
+	gsettings set org.gnome.mutter dynamic-workspaces true
 	
 	# enable gnome greeter
 	sudo systemctl enable gdm.service
