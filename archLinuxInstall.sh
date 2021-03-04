@@ -655,7 +655,7 @@ function show_menus() {
 	echo -e "                           ${TEST}Installation Selections ${RESET} "
 	echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 	echo -e " ${TEST1} 1. AUR Package Manager (required)		11. Install Wallpapers"
-	echo "  2. Optimize Package Repositories		12. Desktop or Window Manager
+	echo "  2. Optimize Package Repositories		12. Desktop or Window Manager"
 	echo "  3. Xorg					13. Virtual Machines"
 	echo "  4. System Utilities				14. Cron"
 	echo "  5. Networking					15. Create User Directories"
