@@ -270,7 +270,7 @@ function installCinnamon() {
 #
 function installGnome() {
 	local GNOME="gnome gdm gnome-control-center gnome-terminal gnome-tweaks matcha-gtk-theme papirus-icon-theme papirus-maia-icon-theme xcursor-dmz noto-fonts ttf-hack chrome-gnome-shell pacman-contrib deluge gufw gnome-disk-utility polkit-gnome gnome-packagekit evince viewnior xcursor-dmz vlc audacious audacity rhythmbox rhythmbox-plugin-alternative-toolbar celluloid clementine gnome-calculator gnome-podcasts handbrake handbrake-cli avidemux-cli avidemux-qt p7zip gnome-notes gnome-photos dconf-editor ghex gnome-builder gnome-todo gnome-sound-recorder gnome-usage sysprof gnome-nettool gnome-shell-extensions gnome-keyring"
-	local GNOMEEXTENSIONS="gnome-shell-extension-arch-update gnome-shell-extension-dash-to-dock gnome-shell-extension-clipboard-indicator gnome-shell-extension-openweather-git gnome-shell-extension-screenshot-git"
+	local GNOMEEXTENSIONS="gnome-shell-extension-arch-update gnome-shell-extension-dash-to-dock gnome-shell-extension-clipboard-indicator gnome-shell-extension-openweather-git gnome-shell-extension-screenshot-git gnome-shell-extension-installer"
 	
 	if [ $PROCESSORTYPE == "x86" ]; then
 		GNOME="$GNOME $X86APPS"
@@ -288,22 +288,40 @@ function installGnome() {
 		yay -Rns gnome-boxes
 	fi
 	
+	# install radio extension
+	gnome-shell-extension-installer 836
+	
+	# enable gnome extensions
+	gnome-extensions enable arch-update@RaphaelRochet
+	gnome-extensions enable dash-to-dock@micxgx.gmail.com
+	gnome-extensions enable clipboard-indicator@tudmotu.com
+	gnome-extensions enable user-theme@gnome-shell-extensions.gcampax.github.com
+	gnome-extensions enable workspace-indicator@gnome-shell-extensions.gcampax.github.com
+	gnome-extensions enable openweather-extension@jenslody.de
+	gnome-extensions enable gnome-shell-screenshot@ttll.de
+	gnome-extensions enable auto-move-windows@gnome-shell-extensions.gcampax.github.com
+	
 	# configure gnome desktop settings (gsettings list-recursively)
-	#gsettings set org.gnome.shell enabled-extensions ['user-theme@gnome-shell-extensions.gcampax.github.com', 'workspace-indicator@gnome-shell-extensions.gcampax.github.com', 'dash-to-dock@micxgx.gmail.com', 'unlockDialogBackground@sun.wxg@gmail.com', 'arch-update@RaphaelRochet', 'gnome-shell-screenshot@ttll.de', 'radio@hslbck.gmail.com', 'openweather-extension@jenslody.de']
 	gsettings set org.gnome.desktop.interface gtk-theme 'Matcha-dark-sea'
 	gsettings set org.gnome.shell.extensions.user-theme name 'Matcha-dark-sea'
 	gsettings set org.gnome.desktop.interface icon-theme 'Papirus-Adapta-Nokto-Maia'
 	gsettings set org.gnome.desktop.wm.preferences button-layout 'close,minimize,maximize:appmenu'
 	gsettings set org.gnome.shell.overrides dynamic-workspaces true
 	gsettings set org.gnome.mutter dynamic-workspaces true
-	if [[ ! -d ~/.local/share/backgrounds ]]; then
-		mkdir ~/.local/share/backgrounds
-	fi
+	gsettings set org.gnome.shell.overrides workspaces-only-on-primary false
+	gsettings set org.gnome.mutter workspaces-only-on-primary false
+	if [ ! -d ~/.local/share/backgrounds ]; then  
+        	mkdir -p ~/.local/share/backgrounds
+        fi
 	cp ~/Pictures/Wallpaper/0021.jpg ~/.local/share/backgrounds/.
 	gsettings set org.gnome.desktop.background picture-uri 'file:///home/jdoss/.local/share/backgrounds/0021.jpg'
 	gsettings set org.gnome.desktop.screensaver picture-uri 'file:///home/jdoss/.local/share/backgrounds/0021.jpg'
 	gsettings set org.gnome.desktop.background picture-options 'zoom'
 	gsettings set org.gnome.desktop.screensaver picture-options 'zoom'
+	
+	# dash to dock config
+	gsettings set org.gnome.shell.extensions.dash-to-dock extend-height true
+	gsettings set org.gnome.shell.extensions.dash-to-dock custom-theme-shrink true
 	
 	# enable gnome greeter
 	sudo systemctl enable gdm.service
