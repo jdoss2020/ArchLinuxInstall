@@ -444,7 +444,7 @@ function installBudgie() {
 #
 #
 function installi3wm() {
-	local I3WM="hunspell-en_US alacritty i3-gaps i3lock-color i3status i3blocks dmenu terminator firefox chromium picom polybar nitrogen ttf-font-awesome dconf qutebrowser vim vifm flameshot trizen pyradio-git htop alacritty youtube-viewer pcmanfm lxappearance mpv vlc deadbeef jq materia-gtk-theme mint-backgrounds-tricia nerd-fonts-droid-sans-mono nerd-fonts-ubuntu-mono papirus-icon-theme network-manager-applet trayer volumeicon polkit-gnome htop lightdm-gtk-greeter-settings luit wireless_tools flex rofi librewolf-bin gnome-calculator mousepad vscodium-bin remmina scribus avidemux-qt avidemux-cli handbrake handbrake-cli foliate gnome-todo liferea"
+	local I3WM="alacritty i3-gaps i3lock-color i3status i3blocks dmenu terminator firefox chromium picom polybar nitrogen ttf-font-awesome dconf qutebrowser vim vifm flameshot trizen pyradio-git htop alacritty youtube-viewer pcmanfm lxappearance mpv vlc deadbeef jq materia-gtk-theme mint-backgrounds-tricia nerd-fonts-droid-sans-mono nerd-fonts-ubuntu-mono papirus-icon-theme network-manager-applet trayer volumeicon polkit-gnome htop lightdm-gtk-greeter-settings luit wireless_tools flex rofi librewolf-bin gnome-calculator mousepad vscodium-bin remmina scribus avidemux-qt avidemux-cli handbrake handbrake-cli foliate gnome-todo liferea"
 
 	if [ $PROCESSORTYPE == "x86" ]; then
 		I3WM="$I3WM $X86APPS"
@@ -464,6 +464,32 @@ function installi3wm() {
 	find ~/.config -name "*.py" -exec chmod +x {} \;
 	chmod +x ~/.config/scripts/*
 
+	# enable lightdm-gtk-greeter
+	installLightDMGTKGreeter
+	sleep $SLEEPINTERVAL
+}
+#
+#
+function installOpenbox() {
+	local OPENBOX="openbox ttf-dejavu ttf-liberation obconf lxappearance-obconf lxinput lxrandr obkey ob-autostart obapps menumaker tint2 rofi pcmanfm lxsession obmenu xterm xfce4-terminal nitrogen picom arc-gtk-theme papirus-icon-theme i3lock-color playerctl t2ec psuinfo xterm terminator librewolf-bin gnome-polkit pcmanfm deadbeef rofi materia-gtk-theme mint-backgrounds-tricia nerd-fonts-droid-sans-mono nerd-fonts-ubuntu-mono papirus-icon-theme network-manager-applet volumeicon htop galculator mousepad foliate liferea geany geany-plugins viewnior qutebrowser"
+
+	if [ $PROCESSORTYPE == "x86" ]; then
+		OPENBOX="$OPENBOX $X86APPS"
+	else
+		OPENBOX="$OPENBOX $ARMAPPS"
+	fi
+
+	yay -Sy --needed $OPENBOX
+	
+	# copy openbox config
+	cp -a /etc/xdg/openbox/. ~/.config/openbox/
+	
+	# set start programs
+	echo -ne "tint2 &\nnitrogen --restore &\npicom -f &\n" >> ~/.config/openbox/autostart
+	
+	# build menu
+	mnaker -vf OpenBox3
+	
 	# enable lightdm-gtk-greeter
 	installLightDMGTKGreeter
 	sleep $SLEEPINTERVAL
@@ -681,8 +707,9 @@ function installDesktops() {
 		echo " 6. LXQT"
 		echo " 7. Budgie"
 		echo " 8. i3wm"
-		echo -e " 9. Return ${RESET}"
-		read -p "Enter choice [1 - 9] " CHOICE
+		echo " 9. Openbox"
+		echo -e "10. Return ${RESET}"
+		read -p "Enter choice [1 - 10] " CHOICE
 
 		case $CHOICE in
 			1) installCinnamon ;;
@@ -693,7 +720,8 @@ function installDesktops() {
 			6) installLXQT ;;
 			7) installBudgie ;;
 			8) installi3wm ;;
-			9) break ;;
+			9) installOpenbox ;;
+			10) break ;;
 			*) echo -e "${RED}Error...${CHOICE} is an invalid selection. ${RESET}" && sleep 2
 		esac
 	done
