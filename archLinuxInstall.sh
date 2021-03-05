@@ -471,7 +471,7 @@ function installi3wm() {
 #
 #
 function installOpenbox() {
-	local OPENBOX="openbox ttf-dejavu ttf-liberation obconf lxappearance-obconf lxinput lxrandr obkey ob-autostart obapps menumaker tint2 rofi pcmanfm lxsession obmenu xterm xfce4-terminal nitrogen picom arc-gtk-theme papirus-icon-theme i3lock-color playerctl t2ec psuinfo xterm terminator librewolf-bin gnome-polkit pcmanfm deadbeef rofi materia-gtk-theme mint-backgrounds-tricia nerd-fonts-droid-sans-mono nerd-fonts-ubuntu-mono papirus-icon-theme network-manager-applet volumeicon htop galculator mousepad foliate liferea geany geany-plugins viewnior qutebrowser"
+	local OPENBOX="openbox ttf-dejavu ttf-liberation obconf lxappearance-obconf lxinput lxrandr obkey ob-autostart obapps menumaker tint2 rofi pcmanfm lxsession obmenu xterm xfce4-terminal nitrogen picom arc-gtk-theme papirus-icon-theme i3lock-color playerctl t2ec psuinfo xterm terminator librewolf-bin polkit-gnome pcmanfm deadbeef rofi materia-gtk-theme mint-backgrounds-tricia nerd-fonts-droid-sans-mono nerd-fonts-ubuntu-mono papirus-icon-theme network-manager-applet volumeicon htop galculator mousepad foliate liferea geany geany-plugins viewnior qutebrowser"
 
 	if [ $PROCESSORTYPE == "x86" ]; then
 		OPENBOX="$OPENBOX $X86APPS"
@@ -488,7 +488,7 @@ function installOpenbox() {
 	echo -ne "tint2 &\nnitrogen --restore &\npicom -f &\n" >> ~/.config/openbox/autostart
 	
 	# build menu
-	mnaker -vf OpenBox3
+	mmaker -vf OpenBox3
 	
 	# enable lightdm-gtk-greeter
 	installLightDMGTKGreeter
