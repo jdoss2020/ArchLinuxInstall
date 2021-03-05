@@ -324,13 +324,18 @@ function installGnome() {
 	gsettings set org.gnome.desktop.screensaver picture-uri 'file:///home/jdoss/.local/share/backgrounds/0021.jpg'
 	gsettings set org.gnome.desktop.background picture-options 'zoom'
 	gsettings set org.gnome.desktop.screensaver picture-options 'zoom'
+	gsettings set org.gnome.desktop.wm.preferences titlebar-font 'Ubuntu Bold 11'
+	gsettings set org.gnome.desktop.interface monospace-font-name 'UbuntuMono Nerd Font 11'
+	gsettings set org.gnome.desktop.interface document-font-name 'Ubuntu 11'
+	gsettings set org.gnome.desktop.interface font-name 'Ubuntu 11'
+	gsettings set org.gnome.desktop.interface cursor-theme 'DMZ-White'
 	gsettings set org.gnome.shell.extensions.openweather city '39.365992,-76.9688737>Sykesville, Carroll County, Maryland, United States >-1'
 	
 	# dash-to-dock config
 	gsettings set org.gnome.shell.extensions.dash-to-dock extend-height true
 	gsettings set org.gnome.shell.extensions.dash-to-dock custom-theme-shrink true
 	# set favorite apps for dash-to-dock (desktop configurations in /usr/share/applications)
-	gsettings set org.gnome.shell favorite-apps "['chromium.desktop', 'org.gnome.Terminal.desktop', 'org.gnome.Nautilus.desktop', 'libreoffice-writer.desktop', 'libreoffice-calc.desktop', 'gimp.desktop', 'mpv.desktop', 'org.gnome.gedit.desktop']"
+	gsettings set org.gnome.shell favorite-apps "['chromium.desktop', 'librewolf.desktop', 'org.gnome.Terminal.desktop', 'org.gnome.Nautilus.desktop', 'libreoffice-writer.desktop', 'libreoffice-calc.desktop', 'gimp.desktop', 'mpv.desktop', 'org.gnome.gedit.desktop', 'org.gnome.Todo.desktop']"
 	
 	# enable gnome greeter
 	sudo systemctl enable gdm.service
