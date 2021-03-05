@@ -263,6 +263,22 @@ function installCinnamon() {
 	fi
 
 	yay -S --needed $CINNAMON
+
+	# set wallpaper
+	gsettings set org.cinnamon.desktop.background picture-uri 'file:///home/jdoss/Pictures/wallpapers/0012.jpg'
+	
+	# desktop customizations
+	gsettings set org.cinnamon.desktop.interface icon-theme 'Papirus-Adapta-Nokto-Maia'
+	gsettings set org.cinnamon.theme name 'Matcha-dark-sea'
+	gsettings set org.cinnamon.desktop.interface gtk-theme 'Matcha-dark-sea'
+	gsettings set org.cinnamon.desktop.wm.preferences theme 'Matcha-dark-sea'
+	gsettings set org.cinnamon.desktop.interface cursor-theme 'DMZ-White'
+	gsettings set org.cinnamon.desktop.background picture-uri 'file:///home/jdoss/.local/share/backgrounds/0012.jpg'
+	gsettings set org.cinnamon.desktop.wm.preferences button-layout 'close,minimize,maximize:'
+	gsettings set org.cinnamon.desktop.background.slideshow image-source 'directory:///home/jdoss/Pictures/wallpapers'
+	gsettings set org.cinnamon.background mode 'wallpaper'
+	gsettings set org.cinnamon favorite-apps "['firefox.desktop', 'org.gnome.Software.desktop', 'cinnamon-settings.desktop', 'hexchat.desktop', 'org.gnome.Terminal.desktop', 'nemo.desktop']"
+
 	installSlickGreeter
 	sleep $SLEEPINTERVAL
 }
