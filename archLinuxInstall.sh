@@ -309,8 +309,12 @@ function installGnome() {
 	# replace gnome-terminal with gnome-terminal-transparancy
 	yay -Sy --needed gnome-terminal-transparency
 	
-	# install radio extension
-	gnome-shell-extension-installer 836
+	# install extensions
+	gnome-shell-extension-installer 836 # install radio extension
+	gnome-shell-extension-installer 906 # install sound input and output device chooser extension
+	gnome-shell-extension-installer 800 # install remove dropdown arrows extension
+	gnome-shell-extension-installer 7 # install removable drive menu extension
+	gnome-shell-extension-installer 517 # install caffeine extension
 	
 	# enable gnome extensions
 	gnome-extensions enable arch-update@RaphaelRochet
@@ -322,6 +326,10 @@ function installGnome() {
 	gnome-extensions enable gnome-shell-screenshot@ttll.de
 	gnome-extensions enable auto-move-windows@gnome-shell-extensions.gcampax.github.com
 	gnome-extensions enable radio@hslbck.gmail.com
+	gnome-extensions enable sound-output-device-chooser@kgshank.net
+	gnome-extensions enable remove-dropdown-arrows@mpdeimos.com
+	gnome-extensions enable drive-menu@gnome-shell-extensions.gcampax.github.com
+	gnome-extensions enable caffeine@patapon.info
 	
 	# configure gnome desktop settings (gsettings list-recursively)
 	gsettings set org.gnome.desktop.interface gtk-theme 'Matcha-dark-sea'
@@ -444,7 +452,7 @@ function installBudgie() {
 #
 #
 function installi3wm() {
-	local I3WM="alacritty i3-gaps i3lock-color i3status i3blocks dmenu terminator firefox chromium picom polybar nitrogen ttf-font-awesome dconf qutebrowser vim vifm flameshot trizen pyradio-git htop alacritty youtube-viewer pcmanfm lxappearance mpv vlc deadbeef jq materia-gtk-theme mint-backgrounds-tricia nerd-fonts-droid-sans-mono nerd-fonts-ubuntu-mono papirus-icon-theme network-manager-applet trayer volumeicon polkit-gnome htop lightdm-gtk-greeter-settings luit wireless_tools flex rofi librewolf-bin gnome-calculator mousepad vscodium-bin remmina scribus avidemux-qt avidemux-cli handbrake handbrake-cli foliate gnome-todo liferea"
+	local I3WM="alacritty gnome-keyring playerctl vifm i3-gaps i3lock-color i3status i3blocks dmenu terminator firefox chromium picom polybar nitrogen ttf-font-awesome dconf qutebrowser vim vifm flameshot trizen pyradio-git htop alacritty youtube-viewer pcmanfm lxappearance mpv vlc deadbeef jq materia-gtk-theme mint-backgrounds-tricia nerd-fonts-droid-sans-mono nerd-fonts-ubuntu-mono papirus-icon-theme network-manager-applet trayer volumeicon polkit-gnome htop lightdm-gtk-greeter-settings luit wireless_tools flex rofi librewolf-bin gnome-calculator mousepad vscodium-bin remmina scribus avidemux-qt avidemux-cli handbrake handbrake-cli foliate gnome-todo liferea"
 
 	if [ $PROCESSORTYPE == "x86" ]; then
 		I3WM="$I3WM $X86APPS"
