@@ -529,6 +529,9 @@ function installBSPWM() {
 	touch ~/.xprofile
 	echo -ne "nitrogen --restore &\npicom -f &\n" > ~/.profile
 	
+	# update bashrc for styling
+	echo -ne "neofetch\n\npowerline-daemon -q\nPOWERLINE_BASH_CONTINUATION=1\nPOWERLINE_BASH_SELECT=1\n. /usr/share/powerline/bindings/bash/powerline.sh\n" >> ~/.bashrc
+	
 	# enable lightdm-gtk-greeter
 	installLightDMGTKGreeter
 	sleep $SLEEPINTERVAL
