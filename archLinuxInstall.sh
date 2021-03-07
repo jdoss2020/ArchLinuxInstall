@@ -504,6 +504,37 @@ function installOpenbox() {
 }
 #
 #
+function installBSPWM() {
+	yay -Sy --needed bspwwm sxhkd rxvt termite nitrogen picom firefox chromium pcmanfm dmenu polybar powerline ttf-awesome-font siji-git rofi
+
+	# make directories
+	mkdir .config/bspwm
+	mkdir .config/sxhkd
+	mkdir .config/polybar
+	
+	# copy example files
+	cp usr/share/doc/bspwm/examples/bspwmrc .config/bspwm/
+	cp usr/share/doc/bspwm/examples/sxhkdrc .config/sxhkd/
+	cp /usr/share/doc/polybar/config ~/.config/polybar/
+	
+	# create polybar launch.sh
+	touch ~/.config/polybar/launch.sh
+	echo -ne "#!/usr/bin/env bash\n\n# Terminate already running bar instances\nkillall -q polybar\n\n# Wait until the processes have been shut down\nwhile pgrep -u $UID -x polybar >/dev/null; do sleep 1; done\n\nfor m in $(polybar --list-monitors | cut -d":" -f1); do\n	WIRELESS=$(ls /sys/class/net/ | grep ^wl | awk 'NR==1{print $1}') MONITOR=$m polybar --reload mainbar-i3 &\ndone\n\necho "Bars launched..."\n" > ~/.config/polybar/launch.sh
+	chmod + ~/.config/polybar/launch.sh
+	
+	# add polybar to bspwm launcher
+	sed -i -e  "/^pgrep -x sxhkd > \/dev\/null || sxhkd &/a \$HOME\/.config\/polybar\/launch.sh" ~/.config/bspwm/bspwmrc
+	
+	# create file to run nitrogen and picom
+	touch ~/.xprofile
+	echo -ne "nitrogen --restore &\npicom -f &\n" > ~/.profile
+	
+	# enable lightdm-gtk-greeter
+	installLightDMGTKGreeter
+	sleep $SLEEPINTERVAL
+}
+#
+#
 function configurePianobar() {
 	# fix sound on pianobar
 	sudo sh -c 'echo "default_driver=pulse" > /etc/libao.conf'
@@ -716,8 +747,9 @@ function installDesktops() {
 		echo " 7. Budgie"
 		echo " 8. i3wm"
 		echo " 9. Openbox"
-		echo -e "10. Return ${RESET}"
-		read -p "Enter choice [1 - 10] " CHOICE
+		echo "10. Bspwm"
+		echo -e "11. Return ${RESET}"
+		read -p "Enter choice [1 - 11] " CHOICE
 
 		case $CHOICE in
 			1) installCinnamon ;;
@@ -729,7 +761,8 @@ function installDesktops() {
 			7) installBudgie ;;
 			8) installi3wm ;;
 			9) installOpenbox ;;
-			10) break ;;
+			10) installBspwm ;;
+			11) break ;;
 			*) echo -e "${RED}Error...${CHOICE} is an invalid selection. ${RESET}" && sleep 2
 		esac
 	done
