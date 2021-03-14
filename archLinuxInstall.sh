@@ -505,7 +505,7 @@ function installOpenbox() {
 #
 #
 function installBSPWM() {
-	yay -Sy --needed bspwwm sxhkd rxvt termite nitrogen picom firefox chromium pcmanfm dmenu polybar powerline ttf-awesome-font siji-git rofi
+	yay -Sy --needed bspwwm sxhkd terminator nitrogen picom firefox chromium pcmanfm dmenu polybar powerline ttf-awesome-font siji-git rofi trizen mousepad chromium-docker xorg-xhost pdfjs ufetch pyradio lxappearance dunst betterlockscreen bc feh
 
 	# make directories
 	mkdir .config/bspwm
