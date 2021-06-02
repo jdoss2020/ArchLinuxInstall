@@ -542,7 +542,7 @@ function configurePianobar() {
 	# fix sound on pianobar
 	sudo sh -c 'echo "default_driver=pulse" > /etc/libao.conf'
 	if [[ ! -d ~/.config/pianobar ]]; then
-		mkdir ~/.config/pianobar
+		mkdir -p ~/.config/pianobar
 	fi
 	touch ~/.config/pianobar/config
 	echo -en "audio_quality = high\nautostart_station = $PIANOBARSTART\npassword = $PIANOBARPWD\nuser = $PIANOBARUSER\n" > ~/.config/pianobar/config
